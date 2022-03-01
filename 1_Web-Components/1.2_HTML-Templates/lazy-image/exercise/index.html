@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>lazy-image WC</title>
+</head>
+
+<body>
+    <template>
+      <h1>Hola keepcoding!</h1>
+      <img
+        src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Firefox_logo%2C_2019.svg/739px-Firefox_logo%2C_2019.svg.png"
+        alt="example-alt"
+      />
+    </template>
+    <lazy-image image="https://www.somosxbox.com/wp-content/uploads/2021/12/godfrey-elden-ring.jpg?mrf-size=m"></lazy-image>
+    <lazy-image image="https://image.shutterstock.com/image-photo/word-example-written-on-magnifying-260nw-1883859943.jpg"></lazy-image>
+</body>
+
+<script>
+    // 2- Define the LazyImage class.
+    // 3- Using a document selector method, target the template DOM node.
+    // 4- Create a clone of that DOM node, and set the properties that you need. Try to draw this image --> https://pbs.twimg.com/profile_images/1360169463455379459/v7xAQtTB.jpg
+    // 5- Append the clone to LazyImage component.
+    // 6- Use the lazy-image component!!
+    class LazyImage extends HTMLElement {
+        image = null;
+        constructor() {
+            super();
+            //ahora image vendrá como propiedad (como si fuera un input) al WC
+            this.image = this.getAttribute('image') || 'https://pbs.twimg.com/profile_images/1360169463455379459/v7xAQtTB.jpg';
+        }
+        static get observedAttributes() {
+            return ['image'];
+        }
+        connectedCallback() {
+            const templateElement = document.querySelector('template');
+            //cojo el conetnido de templateElement y clono el contenido
+            //de la etiqueta template
+            //el booleano se usa para hacer un deepclone
+            const clone = templateElement.content.cloneNode(true);
+            //modifico la imagen
+            clone.querySelector('img').src = this.image;
+            //la añado al nodo del mismo WC
+            this.appendChild(clone);
+            console.log(templateElement);
+        }
+
+        attributeChangedCallback(name, oldVal, newVal) {
+            const imageElement = this.querySelector('img');
+            if (imageElement) {
+                imageElement.src = newVal;
+            }
+
+        }
+
+
+    }
+
+    //asocio el nombre de la etiqueta a la clase que representará al WC
+    customElements.define('lazy-image', LazyImage);
+</script>
+
+</html>

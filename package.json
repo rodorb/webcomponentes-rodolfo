@@ -1,0 +1,21 @@
+{
+    "name": "webcomponentes-rodolfo",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "start": "npx live-server",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/rodorb/webcomponentes-rodolfo.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/rodorb/webcomponentes-rodolfo/issues"
+    },
+    "homepage": "https://github.com/rodorb/webcomponentes-rodolfo#readme"
+}

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>hello-world WC</title>
+
+    <body>
+        <hello-world test="5" lorem="lorem ipsum" ejemplo="valor de ejemplo"></hello-world>
+    </body>
+
+</head>
+
+<body>
+    <!--     
+      1- create a class HelloWorld.
+      2- Define it's constructor.
+      3- Define it's connectedCallback lifecycle hook to write some text.
+      4- Register the element so you can use it.
+      5- Use the element.
+      6- Make the attributeChangedCallback work!
+      7- Make the disconnectedCallback work!
+
+    -->
+    <script>
+        // Todos los WC que crearemos heredan de HTMLElement
+        class HelloWorld extends HTMLElement {
+            constructor() {
+                super();
+            }
+
+            //Getter que devuelve un array de las propiedades de las que queremos
+            //escuchar sus cambios
+            static get observedAttributes() {
+                return ['test', 'lorem']
+            }
+
+            //Se ejecuta cuando se inserta en el DOM este WC
+            //este método puede ser asíncrono si necesita cargar una
+            //petición por ejemplo
+            connectedCallback() {
+                console.log('connectedCallback funciona');
+                this.innerHTML = '<h1>Buenas tardes Web Components<h1/>'
+                console.log(this.getAttribute("ejemplo"));
+                //Se tendría que eliminar en el disconnectedCallback
+                // document.addEventListener('lo que sea', () => {
+                //   //hacer cosas
+                // });
+
+                //Al cambiar el atributo del WC dede aqui, entraría 
+                //en el metodo del ciclo de vida attributeChangedCallback
+                this.setAttribute('test', '999')
+            }
+
+            //Se ejecuta cuando se elimina del DOM este WC
+            disconnectedCallback() {
+                console.log('Adios WC');
+                //Limpiar eventos registrados
+                //Por ejemplo si ponemos listeners en el connectedCallback a nivel del documento
+                //se tendrían que eliminar en este callback
+            }
+
+            //Se ejecuta cuando cambia algún atributo del WC 
+            //(definidos en observerdAttributes)
+            attributeChangedCallback(name, oldVal, newVal) {
+                console.log(`${name} cambia de ${oldVal} a ${newVal}`);
+            }
+        }
+        //Registrar el elemento para poder llamarlo desde el HTML
+        //cuando el navegador ejecute esta línea, ya se podría llamar
+        //como <hello-world></hello-world>
+        customElements.define('hello-world', HelloWorld);
+    </script>
+</body>
+
+</html>
